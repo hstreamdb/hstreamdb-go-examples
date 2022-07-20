@@ -1,0 +1,27 @@
+package examples
+
+import (
+	"github.com/hstreamdb/hstreamdb-go/hstream"
+	"log"
+)
+
+func ExampleCreateSubscription() {
+	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
+	if err != nil {
+		log.Fatalf("Creating client error: %s", err)
+	}
+	defer client.Close()
+
+	streamName := "testStream"
+	subId0 := "SubscriptionId0"
+	subId1 := "SubscriptionId1"
+
+	// Create a new subscription with ack timeout = 600s, max unAcked records num set to 10000 by default
+	if err := client.CreateSubscription(subId0, streamName, 600); err != nil {
+		log.Fatalf("Creating subscription error: %s", err)
+	}
+
+	if err := client.CreateSubscriptionWithMaxUnack(subId1, streamName, 600, 5000); err != nil {
+		log.Fatalf("Creating subscription error: %s", err)
+	}
+}
