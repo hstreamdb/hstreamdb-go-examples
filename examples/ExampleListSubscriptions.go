@@ -1,3 +1,21 @@
 package examples
 
-func ExampleListSubscriptions() {}
+import (
+	"fmt"
+	"github.com/hstreamdb/hstreamdb-go/hstream"
+	"log"
+)
+
+func ExampleListSubscriptions() {
+	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
+	if err != nil {
+		log.Fatalf("Creating client error: %s", err)
+	}
+	defer client.Close()
+
+	subscriptions, err := client.ListSubscriptions()
+	if err != nil {
+		log.Fatalf("Listing subscriptions error: %s", err)
+	}
+	fmt.Println(subscriptions)
+}

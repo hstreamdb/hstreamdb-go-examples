@@ -24,5 +24,4 @@ func ExampleDeleteSubscription() {
 	if err := client.DeleteSubscription(subId1, false); err != nil {
 		log.Fatalf("Deleting subscription error: %s", err)
 	}
-
 }

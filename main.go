@@ -15,7 +15,6 @@ func main() {
 
 	examples.ExampleConsumeDataSimple()
 	examples.ExampleConsumeDataShared()
-	examples.ExampleConsumeDataWithErrorListener()
 
 	examples.ExampleDeleteSubscription()
 	examples.ExampleDeleteStream()
