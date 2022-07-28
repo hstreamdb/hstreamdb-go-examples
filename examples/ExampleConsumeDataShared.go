@@ -2,6 +2,7 @@ package examples
 
 import (
 	"github.com/hstreamdb/hstreamdb-go/hstream"
+	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
 	"log"
 	"sync"
 )
@@ -24,7 +25,7 @@ func ExampleConsumeDataShared() {
 		defer consumer.Stop()
 
 		dataChan := consumer.StartFetch()
-		fetchedRecords := make([]hstream.RecordId, 0, 100)
+		fetchedRecords := make([]Record.RecordId, 0, 100)
 		for recordMsg := range dataChan {
 			receivedRecords, err := recordMsg.Result, recordMsg.Err
 			if err != nil {
@@ -53,7 +54,7 @@ func ExampleConsumeDataShared() {
 		defer consumer.Stop()
 
 		dataChan := consumer.StartFetch()
-		fetchedRecords := make([]hstream.RecordId, 0, 100)
+		fetchedRecords := make([]Record.RecordId, 0, 100)
 		for recordMsg := range dataChan {
 			receivedRecords, err := recordMsg.Result, recordMsg.Err
 			if err != nil {

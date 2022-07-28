@@ -2,6 +2,7 @@ package examples
 
 import (
 	"github.com/hstreamdb/hstreamdb-go/hstream"
+	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
 	"log"
 )
 
@@ -12,7 +13,11 @@ func ExampleWriteDataSimple() {
 	}
 	defer client.Close()
 
-	producer := client.NewProducer("testStream")
+	producer, err := client.NewProducer("testStream")
+	if err != nil {
+		log.Fatalf("Creating producer error: %s", err)
+	}
+
 	defer producer.Stop()
 
 	payload := map[string]interface{}{
@@ -27,7 +32,7 @@ func ExampleWriteDataSimple() {
 		},
 	}
 
-	hRecord, err := hstream.NewHStreamHRecord("testStream", payload)
+	hRecord, err := Record.NewHStreamHRecord("testStream", payload)
 	if err != nil {
 		log.Fatalf("Creating HRecord error: %s", err)
 	}

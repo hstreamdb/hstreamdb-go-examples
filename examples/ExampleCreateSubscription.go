@@ -17,11 +17,11 @@ func ExampleCreateSubscription() {
 	subId1 := "SubscriptionId1"
 
 	// Create a new subscription with ack timeout = 600s, max unAcked records num set to 10000 by default
-	if err := client.CreateSubscription(subId0, streamName, 600); err != nil {
+	if err := client.CreateSubscription(subId0, streamName, func(sub *hstream.Subscription) { sub.AckTimeoutSeconds = 600 }); err != nil {
 		log.Fatalf("Creating subscription error: %s", err)
 	}
 
-	if err := client.CreateSubscriptionWithMaxUnack(subId1, streamName, 600, 5000); err != nil {
+	if err := client.CreateSubscription(subId1, streamName, func(sub *hstream.Subscription) { sub.AckTimeoutSeconds = 600; sub.MaxUnackedRecords = 5000 }); err != nil {
 		log.Fatalf("Creating subscription error: %s", err)
 	}
 }

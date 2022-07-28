@@ -3,6 +3,7 @@ package examples
 import (
 	"fmt"
 	"github.com/hstreamdb/hstreamdb-go/hstream"
+	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
 	"log"
 	"sync"
 )
@@ -25,7 +26,7 @@ func ExampleWriteDataWithKey() {
 		go func(key string) {
 			result := make([]hstream.AppendResult, 0, 100)
 			for i := 0; i < 100; i++ {
-				rawRecord, _ := hstream.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test-value-%s-%d", key, i)))
+				rawRecord, _ := Record.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test-value-%s-%d", key, i)))
 				r := producer.Append(rawRecord)
 				result = append(result, r)
 			}
