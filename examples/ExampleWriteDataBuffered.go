@@ -29,9 +29,9 @@ func ExampleWriteDataBuffered() {
 
 	go func() {
 		defer wg.Done()
-		result := make([]hstream.AppendResult, 0, 100)
+		result := make([]hstream.AppendResult, 0, 120)
 		for i := 0; i < 100; i++ {
-			rawRecord, _ := Record.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test-value-%s-%d", key, i)))
+			rawRecord, _ := Record.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test_value---%s-%d", key, i)))
 			r := producer.Append(rawRecord)
 			result = append(result, r)
 		}
@@ -42,12 +42,12 @@ func ExampleWriteDataBuffered() {
 	syncStore.Range(func(key, value interface{}) bool {
 		k := key.(string)
 		res := value.([]hstream.AppendResult)
-		for idx, r := range res {
-			resp, err := r.Ready()
+		for i := 0; i < 100; i++ {
+			resp, err := res[i].Ready()
 			if err != nil {
 				log.Printf("write error: %s\n", err.Error())
 			}
-			log.Printf("[key: %s]: record[%d]=%s\n", k, idx, resp.String())
+			log.Printf("[key: %s]: record[%d]=%s\n", k, i, resp.String())
 		}
 		return true
 	})

@@ -20,25 +20,15 @@ func ExampleWriteDataSimple() {
 
 	defer producer.Stop()
 
-	payload := map[string]interface{}{
-		"key1": "value1",
-		"key2": 123,
-		"key3": struct {
-			name string
-			age  int
-		}{
-			name: "John",
-			age:  30,
-		},
-	}
+	payload := []byte("Hello HStreamDB")
 
-	hRecord, err := Record.NewHStreamHRecord("testStream", payload)
+	rawRecord, err := Record.NewHStreamRawRecord("testStream", payload)
 	if err != nil {
-		log.Fatalf("Creating HRecord error: %s", err)
+		log.Fatalf("Creating raw record error: %s", err)
 	}
 
 	for i := 0; i < 500; i++ {
-		appendRes := producer.Append(hRecord)
+		appendRes := producer.Append(rawRecord)
 		if resp, err := appendRes.Ready(); err != nil {
 			log.Printf("Append error: %s", err)
 		} else {

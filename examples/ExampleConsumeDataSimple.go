@@ -23,7 +23,7 @@ func ExampleConsumeDataSimple() {
 		receivedRecords, err := recordMsg.Result, recordMsg.Err
 		if err != nil {
 			log.Printf("Stream fetching error: %s", err)
-			continue
+			break
 		}
 
 		for _, record := range receivedRecords {

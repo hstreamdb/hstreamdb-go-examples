@@ -61,6 +61,8 @@ github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/hstreamdb/hstreamdb-go v0.1.5-0.20220728023816-a07c2745f134 h1:LafmkBaxsiIYA6/p8vcxMyR2+bTTsqX9Zymse4x1Lsg=
 github.com/hstreamdb/hstreamdb-go v0.1.5-0.20220728023816-a07c2745f134/go.mod h1:OSFL4N8uErkxMQNJMADD7S3i+TWNB/PojahmkDA16uk=
+github.com/hstreamdb/hstreamdb-go v0.1.5-0.20220729040807-2e85ac2e50d5 h1:N+5qMSdGAyf/NwLZUAIMHtKGuK0fWeVCgNH0pKieoJ4=
+github.com/hstreamdb/hstreamdb-go v0.1.5-0.20220729040807-2e85ac2e50d5/go.mod h1:OSFL4N8uErkxMQNJMADD7S3i+TWNB/PojahmkDA16uk=
 github.com/hstreamdb/hstreamdb-go v0.1.5 h1:jpDS7Tlw+D/pmNtt/zCXnUijZ45GFOxY9dc/kpcCwew=
 github.com/hstreamdb/hstreamdb-go v0.1.5/go.mod h1:VzrmbK3u2XxTB4RFLlIqiEo5N96BOYVS6i8ga5gjlrg=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=

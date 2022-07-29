@@ -12,12 +12,12 @@ func main() {
 		examples.ExampleCreateStream,
 		examples.ExampleListStreams,
 
+		examples.ExampleCreateSubscription,
+		examples.ExampleListSubscriptions,
+
 		examples.ExampleWriteDataSimple,
 		examples.ExampleWriteDataBuffered,
 		examples.ExampleWriteDataWithKey,
-
-		examples.ExampleCreateSubscription,
-		examples.ExampleListSubscriptions,
 
 		examples.ExampleConsumeDataSimple,
 		examples.ExampleConsumeDataShared,
