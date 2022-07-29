@@ -43,7 +43,7 @@ func ExampleWriteDataWithKey() {
 	rids.Range(func(key, value interface{}) bool {
 		k := key.(string)
 		res := value.([]hstream.AppendResult)
-		for i := 0; i < 100; i++ {
+		for i := range res {
 			resp, err := res[i].Ready()
 			if err != nil {
 				log.Printf("write error: %s\n", err.Error())
