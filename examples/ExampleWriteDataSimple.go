@@ -23,13 +23,6 @@ func ExampleWriteDataSimple() {
 	payload := map[string]interface{}{
 		"key1": "value1",
 		"key2": 123,
-		"key3": struct {
-			name string
-			age  int
-		}{
-			name: "John",
-			age:  30,
-		},
 	}
 
 	hRecord, err := Record.NewHStreamHRecord("testStream", payload)
