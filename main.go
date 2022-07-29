@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	xs := []func(){
+	xs := []func() error{
 		examples.ExampleCreateStream,
 		examples.ExampleListStreams,
 
@@ -26,7 +26,9 @@ func main() {
 		examples.ExampleDeleteStream}
 
 	for _, x := range xs {
-		runFuncWithLog(x)
+		if err := runFuncWithLog(x); err != nil {
+			panic(err)
+		}
 	}
 
 }
@@ -35,9 +37,10 @@ func getFuncName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }
 
-func runFuncWithLog(f func()) {
+func runFuncWithLog(f func() error) error {
 	funcName := getFuncName(f)
 	log.Printf("start %s", funcName)
-	f()
+	err := f()
 	log.Printf("end %s", funcName)
+	return err
 }
