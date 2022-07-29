@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-func ExampleConsumeDataShared() {
+func ExampleConsumeDataShared() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -78,4 +78,6 @@ func ExampleConsumeDataShared() {
 	}()
 
 	wg.Wait()
+
+	return nil
 }

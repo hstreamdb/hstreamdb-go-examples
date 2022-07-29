@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func ExampleCreateSubscription() {
+func ExampleCreateSubscription() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -24,4 +24,6 @@ func ExampleCreateSubscription() {
 	if err := client.CreateSubscription(subId1, streamName, func(sub *hstream.Subscription) { sub.AckTimeoutSeconds = 600; sub.MaxUnackedRecords = 5000 }); err != nil {
 		log.Fatalf("Creating subscription error: %s", err)
 	}
+
+	return nil
 }

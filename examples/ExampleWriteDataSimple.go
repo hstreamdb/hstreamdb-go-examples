@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func ExampleWriteDataSimple() {
+func ExampleWriteDataSimple() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -35,4 +35,6 @@ func ExampleWriteDataSimple() {
 			log.Printf("Append response: %s", resp)
 		}
 	}
+
+	return nil
 }

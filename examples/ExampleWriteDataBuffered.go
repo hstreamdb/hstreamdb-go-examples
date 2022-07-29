@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func ExampleWriteDataBuffered() {
+func ExampleWriteDataBuffered() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -51,4 +51,6 @@ func ExampleWriteDataBuffered() {
 		}
 		return true
 	})
+
+	return nil
 }

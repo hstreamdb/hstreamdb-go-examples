@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func ExampleDeleteSubscription() {
+func ExampleDeleteSubscription() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -24,4 +24,6 @@ func ExampleDeleteSubscription() {
 	if err := client.DeleteSubscription(subId1, false); err != nil {
 		log.Fatalf("Deleting subscription error: %s", err)
 	}
+
+	return nil
 }

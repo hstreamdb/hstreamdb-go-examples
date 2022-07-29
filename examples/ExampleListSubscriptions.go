@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func ExampleListSubscriptions() {
+func ExampleListSubscriptions() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -18,4 +18,6 @@ func ExampleListSubscriptions() {
 		log.Fatalf("Listing subscriptions error: %s", err)
 	}
 	fmt.Println(subscriptions)
+
+	return nil
 }

@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func ExampleWriteDataWithKey() {
+func ExampleWriteDataWithKey() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -28,8 +28,8 @@ func ExampleWriteDataWithKey() {
 
 	for _, key := range keys {
 		go func(key string) {
-			result := make([]hstream.AppendResult, 0, 120)
-			for i := 0; i < 120; i++ {
+			result := make([]hstream.AppendResult, 0, 200)
+			for i := 0; i < 200; i++ {
 				rawRecord, _ := Record.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test_value---%s-%d", key, i)))
 				r := producer.Append(rawRecord)
 				result = append(result, r)
@@ -43,7 +43,7 @@ func ExampleWriteDataWithKey() {
 	rids.Range(func(key, value interface{}) bool {
 		k := key.(string)
 		res := value.([]hstream.AppendResult)
-		for i := range res {
+		for i := 0; i < 100; i++ {
 			resp, err := res[i].Ready()
 			if err != nil {
 				log.Printf("write error: %s\n", err.Error())
@@ -52,4 +52,6 @@ func ExampleWriteDataWithKey() {
 		}
 		return true
 	})
+
+	return nil
 }

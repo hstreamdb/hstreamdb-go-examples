@@ -6,7 +6,7 @@ import (
 	"github.com/hstreamdb/hstreamdb-go/hstream"
 )
 
-func ExampleCreateStream() {
+func ExampleCreateStream() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -20,4 +20,6 @@ func ExampleCreateStream() {
 	if err != nil {
 		log.Fatalf("Creating stream error: %s", err)
 	}
+
+	return nil
 }
