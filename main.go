@@ -11,14 +11,17 @@ func main() {
 	xs := []func() error{
 		examples.ExampleCreateStream,
 		examples.ExampleListStreams,
+		examples.ExampleListShards,
 
 		examples.ExampleCreateSubscription,
 		examples.ExampleListSubscriptions,
 
 		examples.ExampleWriteProducer,
 		examples.ExampleWriteBatchProducer,
+		examples.ExampleWriteBatchProducerMultiKey,
 
 		examples.ExampleConsumer,
+		examples.ExampleReadDataWithReader,
 		examples.ExampleConsumerGroup,
 
 		examples.ExampleDeleteSubscription,

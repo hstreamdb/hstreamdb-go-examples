@@ -2,8 +2,8 @@ package examples
 
 import (
 	"github.com/hstreamdb/hstreamdb-go/hstream"
-	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
 	"log"
+	"time"
 )
 
 func ExampleConsumer() error {
@@ -13,29 +13,30 @@ func ExampleConsumer() error {
 	}
 	defer client.Close()
 
-	subId0 := "SubscriptionId0"
-	consumer := client.NewConsumer("consumer-0", subId0)
+	subId := "SubscriptionId0"
+	consumer := client.NewConsumer("consumer-1", subId)
 	defer consumer.Stop()
 
 	dataChan := consumer.StartFetch()
-	fetchedRecords := make([]Record.RecordId, 0, 100)
-	for recordMsg := range dataChan {
-		if recordMsg.Err != nil {
-			log.Printf("Stream fetching error: %s", err)
-			break
-		}
+	timer := time.NewTimer(3 * time.Second)
+	defer timer.Stop()
 
-		for _, record := range recordMsg.Result {
-			recordId := record.GetRecordId()
-			log.Printf("Receive %s record: record id = %s, payload = %s",
-				record.GetRecordType(), record.GetRecordId(), record.GetPayload())
-			fetchedRecords = append(fetchedRecords, recordId)
-			record.Ack()
-		}
+	for {
+		select {
+		case <-timer.C:
+			log.Println("[consumer]: Streaming fetch stopped")
+			return nil
+		case recordMsg := <-dataChan:
+			if recordMsg.Err != nil {
+				log.Printf("[consumer]: Streaming fetch error: %s", err)
+				continue
+			}
 
-		if len(fetchedRecords) == 100 {
-			log.Println("Stream fetching stopped")
-			break
+			for _, record := range recordMsg.Result {
+				log.Printf("[consumer]: Receive %s record: record id = %s, payload = %+v",
+					record.GetRecordType(), record.GetRecordId().String(), record.GetPayload())
+				record.Ack()
+			}
 		}
 	}
 
