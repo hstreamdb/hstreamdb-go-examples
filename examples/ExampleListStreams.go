@@ -18,7 +18,9 @@ func ExampleListStreams() error {
 		log.Fatalf("Listing streams error: %s", err)
 	}
 
-	fmt.Println(streams)
+	for _, stream := range streams {
+		fmt.Printf("%+v\n", stream)
+	}
 
 	return nil
 }

@@ -17,7 +17,10 @@ func ExampleListSubscriptions() error {
 	if err != nil {
 		log.Fatalf("Listing subscriptions error: %s", err)
 	}
-	fmt.Println(subscriptions)
+
+	for _, sub := range subscriptions {
+		fmt.Printf("%+v\n", sub)
+	}
 
 	return nil
 }
