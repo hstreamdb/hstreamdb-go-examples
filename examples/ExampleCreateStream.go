@@ -13,6 +13,11 @@ func ExampleCreateStream() error {
 	}
 	defer client.Close()
 
+	// Create a stream, only specific streamName
+	if err = client.CreateStream("testDefaultStream"); err != nil {
+		log.Fatalf("Creating stream error: %s", err)
+	}
+
 	// Create a new stream with 1 replica, 5 shards, set the data retention to 1800s.
 	err = client.CreateStream("testStream",
 		hstream.WithReplicationFactor(1),

@@ -16,5 +16,9 @@ func ExampleDeleteStream() error {
 		log.Fatalf("Deleting stream error: %s", err)
 	}
 
+	if err := client.DeleteStream("testDefaultStream"); err != nil {
+		log.Fatalf("Deleting stream error: %s", err)
+	}
+
 	return nil
 }
