@@ -8,29 +8,29 @@ import (
 	"sync"
 )
 
-func ExampleWriteDataWithKey() error {
+func ExampleWriteBatchProducer() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
 	}
 	defer client.Close()
 
-	producer, err := client.NewBatchProducer("testStream", hstream.WithBatch(10, 150))
+	producer, err := client.NewBatchProducer("testStream", hstream.WithBatch(10, 500))
 	if err != nil {
 		log.Fatalf("Creating producer error: %s", err)
 	}
 	defer producer.Stop()
 
-	keys := []string{"test-key1", "test-key2", "test-key3"}
+	keys := []string{"test-key1", "test-key2", "test-key3", "test-key4", "test-key5"}
 	rids := sync.Map{}
 	wg := sync.WaitGroup{}
-	wg.Add(3)
+	wg.Add(5)
 
 	for _, key := range keys {
 		go func(key string) {
-			result := make([]hstream.AppendResult, 0, 200)
-			for i := 0; i < 200; i++ {
-				rawRecord, _ := Record.NewHStreamRawRecord("key-1", []byte(fmt.Sprintf("test_value---%s-%d", key, i)))
+			result := make([]hstream.AppendResult, 0, 100)
+			for i := 0; i < 100; i++ {
+				rawRecord, _ := Record.NewHStreamRawRecord(key, []byte(fmt.Sprintf("test_value---%s-%d", key, i)))
 				r := producer.Append(rawRecord)
 				result = append(result, r)
 			}

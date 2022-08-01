@@ -15,15 +15,15 @@ func main() {
 		examples.ExampleCreateSubscription,
 		examples.ExampleListSubscriptions,
 
-		examples.ExampleWriteDataSimple,
-		examples.ExampleWriteDataBuffered,
-		examples.ExampleWriteDataWithKey,
+		examples.ExampleWriteProducer,
+		examples.ExampleWriteBatchProducer,
 
-		examples.ExampleConsumeDataSimple,
-		examples.ExampleConsumeDataShared,
+		examples.ExampleConsumer,
+		examples.ExampleConsumerGroup,
 
 		examples.ExampleDeleteSubscription,
-		examples.ExampleDeleteStream}
+		examples.ExampleDeleteStream,
+	}
 
 	for _, x := range xs {
 		if err := runFuncWithLog(x); err != nil {
@@ -39,8 +39,8 @@ func getFuncName(i interface{}) string {
 
 func runFuncWithLog(f func() error) error {
 	funcName := getFuncName(f)
-	log.Printf("start %s", funcName)
+	log.Printf("==== start %s ====", funcName)
 	err := f()
-	log.Printf("end %s", funcName)
+	log.Printf("==== end %s ====", funcName)
 	return err
 }

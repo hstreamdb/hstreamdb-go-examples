@@ -5,9 +5,10 @@ import (
 	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
 	"log"
 	"sync"
+	"time"
 )
 
-func ExampleConsumeDataShared() error {
+func ExampleConsumerGroup() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -27,16 +28,15 @@ func ExampleConsumeDataShared() error {
 		dataChan := consumer.StartFetch()
 		fetchedRecords := make([]Record.RecordId, 0, 100)
 		for recordMsg := range dataChan {
-			receivedRecords, err := recordMsg.Result, recordMsg.Err
-			if err != nil {
+			if recordMsg.Err != nil {
 				log.Printf("[consumer-1]: Stream fetching error: %s", err)
 				continue
 			}
 
-			for _, record := range receivedRecords {
+			for _, record := range recordMsg.Result {
 				recordId := record.GetRecordId()
 				log.Printf("[consumer-1]: Receive %s record: record id = %s, payload = %s",
-					record.GetRecordType(), record.GetRecordId(), record.GetPayload())
+					record.GetRecordType(), record.GetRecordId().String(), record.GetPayload())
 				fetchedRecords = append(fetchedRecords, recordId)
 				record.Ack()
 			}
@@ -49,30 +49,37 @@ func ExampleConsumeDataShared() error {
 	}()
 
 	go func() {
+		time.Sleep(500 * time.Millisecond)
 		consumer := client.NewConsumer("consumer-2", subId1)
-		defer wg.Done()
 		defer consumer.Stop()
+		timer := time.NewTimer(2 * time.Second)
+		defer func() {
+			if !timer.Stop() {
+				<-timer.C
+			}
+		}()
+		defer wg.Done()
 
 		dataChan := consumer.StartFetch()
 		fetchedRecords := make([]Record.RecordId, 0, 100)
-		for recordMsg := range dataChan {
-			receivedRecords, err := recordMsg.Result, recordMsg.Err
-			if err != nil {
-				log.Printf("[consumer-2]: Stream fetching error: %s", err)
-				continue
-			}
-
-			for _, record := range receivedRecords {
-				recordId := record.GetRecordId()
-				log.Printf("[consumer-2]: Receive %s record: record id = %s, payload = %s",
-					record.GetRecordType(), record.GetRecordId(), record.GetPayload())
-				fetchedRecords = append(fetchedRecords, recordId)
-				record.Ack()
-			}
-
-			if len(fetchedRecords) == 100 {
+		for {
+			select {
+			case <-timer.C:
 				log.Println("[consumer-2]: Stream fetching stopped")
-				break
+				return
+			case recordMsg := <-dataChan:
+				if recordMsg.Err != nil {
+					log.Printf("[consumer-2]: Stream fetching error: %s", err)
+					continue
+				}
+
+				for _, record := range recordMsg.Result {
+					recordId := record.GetRecordId()
+					log.Printf("[consumer-2]: Receive %s record: record id = %s, payload = %s",
+						record.GetRecordType(), record.GetRecordId().String(), record.GetPayload())
+					fetchedRecords = append(fetchedRecords, recordId)
+					record.Ack()
+				}
 			}
 		}
 	}()

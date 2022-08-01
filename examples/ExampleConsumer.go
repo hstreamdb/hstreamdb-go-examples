@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func ExampleConsumeDataSimple() error {
+func ExampleConsumer() error {
 	client, err := hstream.NewHStreamClient(YourHStreamServiceUrl)
 	if err != nil {
 		log.Fatalf("Creating client error: %s", err)
@@ -20,13 +20,12 @@ func ExampleConsumeDataSimple() error {
 	dataChan := consumer.StartFetch()
 	fetchedRecords := make([]Record.RecordId, 0, 100)
 	for recordMsg := range dataChan {
-		receivedRecords, err := recordMsg.Result, recordMsg.Err
-		if err != nil {
+		if recordMsg.Err != nil {
 			log.Printf("Stream fetching error: %s", err)
 			break
 		}
 
-		for _, record := range receivedRecords {
+		for _, record := range recordMsg.Result {
 			recordId := record.GetRecordId()
 			log.Printf("Receive %s record: record id = %s, payload = %s",
 				record.GetRecordType(), record.GetRecordId(), record.GetPayload())
