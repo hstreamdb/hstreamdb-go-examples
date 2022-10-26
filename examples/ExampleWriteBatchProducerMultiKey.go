@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hstreamdb/hstreamdb-go/hstream"
 	"github.com/hstreamdb/hstreamdb-go/hstream/Record"
+	"github.com/hstreamdb/hstreamdb-go/hstream/compression"
 	"log"
 	"math/rand"
 	"sync"
@@ -16,7 +17,15 @@ func ExampleWriteBatchProducerMultiKey() error {
 	}
 	defer client.Close()
 
-	producer, err := client.NewBatchProducer("testStream", hstream.WithBatch(10, 500))
+	producer, err := client.NewBatchProducer("testStream",
+		// optional: set record count and max batch bytes trigger
+		hstream.WithBatch(10, 500),
+		// optional: set timeout trigger
+		hstream.TimeOut(1000),
+		// optional: set client compression
+		hstream.WithCompression(compression.Zstd),
+		// optional: set flow control
+		hstream.WithFlowControl(81920000))
 	if err != nil {
 		log.Fatalf("Creating producer error: %s", err)
 	}

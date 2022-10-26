@@ -12,7 +12,10 @@ func ExampleDeleteStream() error {
 	}
 	defer client.Close()
 
-	if err := client.DeleteStream("testStream"); err != nil {
+	// force delete stream and ignore none exist stream
+	if err := client.DeleteStream("testStream",
+		hstream.EnableForceDelete,
+		hstream.EnableIgnoreNoneExist); err != nil {
 		log.Fatalf("Deleting stream error: %s", err)
 	}
 

@@ -1,6 +1,7 @@
 package examples
 
 import (
+	"context"
 	"github.com/hstreamdb/hstreamdb-go/hstream"
 	"log"
 )
@@ -26,11 +27,12 @@ func ExampleReadDataWithReader() error {
 	if err != nil {
 		log.Fatalf("Create reader error: %s", err)
 	}
-	defer reader.DeleteShardReader()
+	defer client.DeleteShardReader(shardId, readerId)
+	defer reader.Close()
 
 	count := 0
 	for {
-		records, err := reader.Read(100)
+		records, err := reader.Read(context.Background())
 		if err != nil {
 			log.Printf("Reader read error: %s\n", err.Error())
 			continue
