@@ -2,7 +2,7 @@ module github.com/hstreamdb/hstreamdb-go-examples
 
 go 1.19
 
-require github.com/hstreamdb/hstreamdb-go v0.1.5-0.20221026060144-5ba03c32ae01
+require github.com/hstreamdb/hstreamdb-go v0.1.5-0.20221104065615-f47e174d1434
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
